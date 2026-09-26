@@ -31,13 +31,11 @@ body {
 }
 
 button,
-input,
-textarea {
+input {
   font: inherit;
 }
 
-button,
-.import-button {
+button {
   border: 1px solid var(--line);
   background: var(--panel);
   color: var(--ink);
@@ -47,8 +45,7 @@ button,
   cursor: pointer;
 }
 
-button:hover,
-.import-button:hover {
+button:hover {
   border-color: var(--accent);
 }
 
@@ -105,27 +102,6 @@ h2 {
   line-height: 1.15;
 }
 
-.backup-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.import-button {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.import-button input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
 .search-row {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) auto;
@@ -134,8 +110,7 @@ h2 {
   margin-bottom: 12px;
 }
 
-.search-field span,
-.notes-form span {
+.search-field span {
   display: block;
   margin-bottom: 6px;
   color: var(--muted);
@@ -143,8 +118,7 @@ h2 {
   font-weight: 700;
 }
 
-.search-field input,
-.notes-form textarea {
+.search-field input {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 7px;
@@ -158,15 +132,14 @@ h2 {
   padding: 0.75rem 0.9rem;
 }
 
-.search-field input:focus,
-.notes-form textarea:focus {
+.search-field input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(31, 79, 70, 0.14);
 }
 
 .filters {
   display: grid;
-  grid-template-columns: repeat(3, minmax(78px, 1fr));
+  grid-template-columns: repeat(2, minmax(92px, 1fr));
   gap: 6px;
   padding: 4px;
   border: 1px solid var(--line);
@@ -279,14 +252,6 @@ h2 {
   white-space: nowrap;
 }
 
-.note-dot {
-  width: 8px;
-  height: 8px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: var(--accent-2);
-}
-
 .row-meta {
   overflow: hidden;
   color: var(--muted);
@@ -364,31 +329,6 @@ h2 {
   margin: 4px 0 0;
 }
 
-.notes-form {
-  display: grid;
-  gap: 14px;
-}
-
-.notes-form textarea {
-  min-height: 96px;
-  padding: 0.75rem 0.85rem;
-  resize: vertical;
-}
-
-.form-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.form-actions p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
 .empty-state {
   padding: 28px;
   color: var(--muted);
@@ -412,10 +352,6 @@ h2 {
 
   .topbar {
     align-items: stretch;
-  }
-
-  .backup-actions {
-    justify-content: flex-start;
   }
 
   .component-list {

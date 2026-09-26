@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GF 0014-2009 Component Notes</title>
-    <meta name="description" content="Lookup GF 0014-2009 Chinese character components and keep personal meanings and mnemonics.">
+    <title>GF 0014-2009 Component Lookup</title>
+    <meta name="description" content="Lookup GF 0014-2009 Chinese character components by ID, glyph, pinyin, meaning, source name, or component type.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f4f46'/%3E%3Cpath d='M15 18h34v7H36v25h-8V25H15z' fill='%23f5dfb5'/%3E%3Cpath d='M18 46h28v5H18z' fill='%23e26d5c'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -14,33 +14,24 @@
         <header class="topbar">
           <div>
             <p class="eyebrow">GF 0014-2009</p>
-            <h1>Component Notes</h1>
-          </div>
-          <div class="backup-actions">
-            <button id="exportNotes" type="button">Export notes</button>
-            <label class="import-button">
-              Import notes
-              <input id="importNotes" type="file" accept="application/json">
-            </label>
+            <h1>Component Lookup</h1>
           </div>
         </header>
 
         <div class="search-row">
           <label class="search-field">
             <span>Search</span>
-            <input id="searchInput" type="search" autocomplete="off" placeholder="ID, character, pinyin, meaning, mnemonic">
+            <input id="searchInput" type="search" autocomplete="off" placeholder="ID, character, pinyin, meaning, source">
           </label>
           <div class="filters" role="group" aria-label="Catalog filter">
             <button class="filter-button active" type="button" data-filter="all">All</button>
-            <button class="filter-button" type="button" data-filter="saved">Saved</button>
             <button class="filter-button" type="button" data-filter="unmapped">Unmapped</button>
           </div>
         </div>
 
         <div class="stats" aria-live="polite">
           <span id="resultCount">514 components</span>
-          <span id="savedCount">0 saved notes</span>
-          <span>Local only</span>
+          <span>GF0014 details</span>
         </div>
 
         <div class="content-grid">
@@ -75,22 +66,11 @@
                   <dt>Source name</dt>
                   <dd id="sourceNameValue"></dd>
                 </div>
-              </dl>
-
-              <form id="notesForm" class="notes-form">
-                <label>
-                  <span>My meaning</span>
-                  <textarea id="customMeaning" rows="3" placeholder="Your personal meaning for this component"></textarea>
-                </label>
-                <label>
-                  <span>Mnemonic</span>
-                  <textarea id="mnemonic" rows="5" placeholder="A memory hook, story, or visual association"></textarea>
-                </label>
-                <div class="form-actions">
-                  <p id="saveState" role="status">Ready</p>
-                  <button id="clearNote" type="button">Clear this note</button>
+                <div>
+                  <dt>Component type</dt>
+                  <dd id="componentTypeValue"></dd>
                 </div>
-              </form>
+              </dl>
             </div>
           </section>
         </div>

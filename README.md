@@ -1,8 +1,26 @@
-# GF 0014-2009 Component Notes
+# GF 0014-2009 Component Lookup
 
-A static, local-first lookup app for GF 0014-2009 components.
+A static lookup app for GF 0014-2009 components.
 
-Open `index.html` in a browser. Notes are saved in browser `localStorage`; use **Export notes** and **Import notes** to move or back up personal meanings and mnemonics.
+Search GF0014 details by ID, glyph, pinyin, meaning, source name, or component type.
+
+## Run locally
+
+No installation or build step is required.
+
+### Open directly
+
+Open `index.html` in a web browser.
+
+### Use a local server
+
+From the project directory, run:
+
+```sh
+python3 -m http.server 8000
+```
+
+Then open [http://localhost:8000](http://localhost:8000) in your browser. Press `Ctrl+C` in the terminal to stop the server.
 
 Bundled sources:
 
