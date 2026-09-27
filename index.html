@@ -57,7 +57,8 @@
           </label>
           <div class="filters" role="group" aria-label="Catalog filter">
             <button class="filter-button active" type="button" data-filter="all">All</button>
-            <button class="filter-button" type="button" data-filter="svg">SVG</button>
+            <button class="filter-button" type="button" data-filter="unicode">Unicode</button>
+            <button class="filter-button" type="button" data-filter="private-use">Private use</button>
             <button class="filter-button" type="button" data-filter="unmapped">Unmapped</button>
           </div>
         </div>
@@ -96,6 +97,10 @@
                   <dd id="descriptionValue"></dd>
                 </div>
                 <div>
+                  <dt>Examples</dt>
+                  <dd id="examplesValue" class="example-list"></dd>
+                </div>
+                <div>
                   <dt>Source name</dt>
                   <dd id="sourceNameValue"></dd>
                 </div>
@@ -113,6 +118,6 @@
     <script src="components-data.js?v=2"></script>
     <script src="glyphs-data.js?v=1"></script>
     <script src="decompositions-data.js?v=2"></script>
-    <script src="app.js?v=7"></script>
+    <script src="app.js?v=9"></script>
   </body>
 </html>

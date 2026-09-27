@@ -2,6 +2,7 @@ const components = window.GF0014_COMPONENTS || [];
 const decompositions = window.GF0014_DECOMPOSITIONS || {};
 const componentGlyphs = window.GF0014_GLYPHS || {};
 const componentById = new Map(components.map((component) => [component.id, component]));
+const examplesByComponentId = buildExamplesByComponentId();
 
 const els = {
   decomposerForm: document.querySelector("#decomposerForm"),
@@ -22,6 +23,7 @@ const els = {
   pinyin: document.querySelector("#pinyinValue"),
   meaning: document.querySelector("#meaningValue"),
   description: document.querySelector("#descriptionValue"),
+  examples: document.querySelector("#examplesValue"),
   sourceName: document.querySelector("#sourceNameValue"),
   componentType: document.querySelector("#componentTypeValue"),
   filterButtons: [...document.querySelectorAll(".filter-button")],
@@ -61,14 +63,36 @@ function searchableText(component) {
     component.description,
     component.sourceName,
     component.componentType,
+    getComponentExamples(component).join(""),
   ].join(" ").toLowerCase();
+}
+
+function buildExamplesByComponentId() {
+  const examples = new Map(components.map((component) => [component.id, []]));
+
+  Object.entries(decompositions).forEach(([character, decomposition]) => {
+    const componentIds = new Set(decomposition.components || []);
+    componentIds.forEach((id) => {
+      const list = examples.get(id);
+      if (list && list.length < 8 && !list.includes(character)) {
+        list.push(character);
+      }
+    });
+  });
+
+  return examples;
+}
+
+function getComponentExamples(component) {
+  const examples = examplesByComponentId.get(component.id) || [];
+  if (examples.length) return examples;
+  return component.componentType !== "unmapped" && component.character ? [component.character] : [];
 }
 
 function getFilteredComponents() {
   const query = els.search.value.trim().toLowerCase();
   return components.filter((component) => {
-    if (activeFilter === "unmapped" && component.glyphAvailable) return false;
-    if (activeFilter === "svg" && !componentGlyphs[component.id]) return false;
+    if (activeFilter !== "all" && component.componentType !== activeFilter) return false;
     if (!query) return true;
     return searchableText(component).includes(query);
   });
@@ -122,12 +146,24 @@ function renderDetail() {
   els.pinyin.textContent = component.gfPinyin || component.unihanPinyin || "No pinyin listed";
   els.meaning.textContent = component.meaning || "No meaning listed";
   els.description.textContent = component.description || "No description listed";
+  els.examples.innerHTML = renderExamples(component);
   els.sourceName.textContent = component.sourceName || (component.glyphAvailable ? "Standard character form" : "Unmapped source row");
   els.componentType.textContent = formatComponentType(component.componentType);
 
   const url = new URL(location.href);
   url.searchParams.set("id", component.id);
   history.replaceState(null, "", url);
+}
+
+function renderExamples(component) {
+  const examples = getComponentExamples(component);
+  if (!examples.length) return '<span class="no-examples">No repertoire examples available</span>';
+
+  return examples.map((character) => `
+    <button class="example-character" type="button" data-character="${escapeHtml(character)}" title="Decompose ${escapeHtml(character)}">
+      <span lang="zh-Hans">${escapeHtml(character)}</span>
+    </button>
+  `).join("");
 }
 
 function renderDecomposition() {
@@ -266,6 +302,11 @@ els.list.addEventListener("click", (event) => {
   if (!row) return;
   selectedId = Number(row.dataset.id);
   render();
+});
+
+els.examples.addEventListener("click", (event) => {
+  const example = event.target.closest(".example-character");
+  if (example) setSelectedCharacter(example.dataset.character);
 });
 
 els.filterButtons.forEach((button) => {

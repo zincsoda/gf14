@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Sources - GF 0014-2009 Component Lookup</title>
+    <meta name="description" content="Sources and processing notes for the GF 0014-2009 Component Lookup data.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f4f46'/%3E%3Cpath d='M15 18h34v7H36v25h-8V25H15z' fill='%23f5dfb5'/%3E%3Cpath d='M18 46h28v5H18z' fill='%23e26d5c'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css?v=7">
+  </head>
+  <body>
+    <main class="app-shell">
+      <article class="workspace source-page">
+        <header class="topbar source-page-header">
+          <div>
+            <p class="eyebrow">GF 0014-2009</p>
+            <h1>Data Sources</h1>
+          </div>
+          <a class="source-jump" href="index.html">Back to lookup</a>
+        </header>
+
+        <p class="source-intro">
+          The app combines four public references. Each one supplies a different part of the
+          component catalog or character decomposition tool.
+        </p>
+
+        <section class="source-list" aria-label="Source references">
+          <article class="source-entry">
+            <div class="source-entry-label">
+              <span class="source-number">01</span>
+              <span>Primary standard</span>
+            </div>
+            <div class="source-entry-content">
+              <h2>GF 0014-2009</h2>
+              <p class="source-title"><cite>Specification of Common Modern Chinese Character Components and Component Names</cite></p>
+              <p>
+                The Chinese language standard defines the component inventory used by this app,
+                including component IDs, source names, and pinyin.
+              </p>
+              <p class="source-use"><strong>Used for:</strong> the 514-component catalog and its identifying details.</p>
+              <a class="source-link" href="https://github.com/zispace/hanzi-docs/blob/main/README.md" target="_blank" rel="noopener noreferrer">View the document archive</a>
+            </div>
+          </article>
+
+          <article class="source-entry">
+            <div class="source-entry-label">
+              <span class="source-number">02</span>
+              <span>Structured data</span>
+            </div>
+            <div class="source-entry-content">
+              <h2>hanzi-chai</h2>
+              <p>
+                This dataset provides machine-readable GF0014 records, character decomposition
+                models, and mappings for components represented by Unicode or private-use characters.
+              </p>
+              <p class="source-use"><strong>Used for:</strong> decomposition results, component mappings, and generated glyph strokes.</p>
+              <a class="source-link" href="https://www.npmjs.com/package/hanzi-chai" target="_blank" rel="noopener noreferrer">View the package</a>
+            </div>
+          </article>
+
+          <article class="source-entry">
+            <div class="source-entry-label">
+              <span class="source-number">03</span>
+              <span>Character set</span>
+            </div>
+            <div class="source-entry-content">
+              <h2>General Standard Chinese Character Table</h2>
+              <p>
+                Level 1 of China's official character table contains the 3,500 commonly used
+                characters covered by the decomposition lookup.
+              </p>
+              <p class="source-use"><strong>Used for:</strong> deciding which characters are included in the lookup set.</p>
+              <a class="source-link" href="https://www.moe.gov.cn/jyb_sjzl/ziliao/A19/201306/t20130601_186002.html" target="_blank" rel="noopener noreferrer">View the official table</a>
+            </div>
+          </article>
+
+          <article class="source-entry">
+            <div class="source-entry-label">
+              <span class="source-number">04</span>
+              <span>Character metadata</span>
+            </div>
+            <div class="source-entry-content">
+              <h2>Unicode Unihan Database</h2>
+              <p>
+                Unihan collects standardized properties for Han characters, including Mandarin
+                readings and English definitions.
+              </p>
+              <p class="source-use"><strong>Used for:</strong> filling searchable readings and definitions where available.</p>
+              <a class="source-link" href="https://unicode.org/reports/tr38/" target="_blank" rel="noopener noreferrer">Read about Unihan</a>
+            </div>
+          </article>
+        </section>
+
+        <section class="source-method" aria-labelledby="methodTitle">
+          <p class="eyebrow">How it fits together</p>
+          <h2 id="methodTitle">From references to the app</h2>
+          <ol>
+            <li>GF 0014-2009 supplies the component system.</li>
+            <li>hanzi-chai turns that system and character decompositions into structured data.</li>
+            <li>The Level 1 character table sets the 3,500-character scope.</li>
+            <li>Unihan adds readings and English definitions used by search and display.</li>
+          </ol>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

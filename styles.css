@@ -340,7 +340,7 @@ h2 {
 
 .filters {
   display: grid;
-  grid-template-columns: repeat(3, minmax(82px, 1fr));
+  grid-template-columns: repeat(4, minmax(82px, 1fr));
   gap: 6px;
   padding: 4px;
   border: 1px solid var(--line);
@@ -656,6 +656,37 @@ h2 {
   margin: 4px 0 0;
 }
 
+.example-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.example-character {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  min-height: 42px;
+  padding: 0;
+  border-color: rgba(31, 79, 70, 0.22);
+  background: var(--field);
+  color: var(--ink);
+  font-family: "STKaiti", "KaiTi", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.example-character:hover,
+.example-character:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.no-examples {
+  color: var(--muted);
+}
+
 .empty-state {
   padding: 28px;
   color: var(--muted);
@@ -699,6 +730,10 @@ h2 {
 }
 
 @media (max-width: 560px) {
+  .filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .decomposer {
     padding: 16px;
   }
