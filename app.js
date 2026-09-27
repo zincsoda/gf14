@@ -1,6 +1,16 @@
 const components = window.GF0014_COMPONENTS || [];
+const decompositions = window.GF0014_DECOMPOSITIONS || {};
+const componentById = new Map(components.map((component) => [component.id, component]));
 
 const els = {
+  decomposerForm: document.querySelector("#decomposerForm"),
+  characterInput: document.querySelector("#characterInput"),
+  decompositionResult: document.querySelector("#decompositionResult"),
+  decompositionGlyph: document.querySelector("#decompositionGlyph"),
+  decompositionStatus: document.querySelector("#decompositionStatus"),
+  decompositionStructure: document.querySelector("#decompositionStructure"),
+  decompositionComponents: document.querySelector("#decompositionComponents"),
+  decompositionNote: document.querySelector("#decompositionNote"),
   search: document.querySelector("#searchInput"),
   list: document.querySelector("#componentList"),
   resultCount: document.querySelector("#resultCount"),
@@ -16,9 +26,27 @@ const els = {
   filterButtons: [...document.querySelectorAll(".filter-button")],
 };
 
-let selectedId = Number(new URLSearchParams(location.search).get("id")) || 138;
+const initialParams = new URLSearchParams(location.search);
+let selectedId = Number(initialParams.get("id")) || 138;
+let selectedCharacter = [...(initialParams.get("char") || "想")][0];
 let activeFilter = "all";
 let filtered = [];
+let isComposing = false;
+
+const structureNames = {
+  "⿰": "Left-right",
+  "⿱": "Top-bottom",
+  "⿲": "Left-middle-right",
+  "⿳": "Top-middle-bottom",
+  "⿴": "Full enclosure",
+  "⿵": "Enclosure from above",
+  "⿶": "Enclosure from below",
+  "⿷": "Enclosure from left",
+  "⿸": "Upper-left enclosure",
+  "⿹": "Upper-right enclosure",
+  "⿺": "Lower-left enclosure",
+  "⿻": "Overlaid",
+};
 
 function searchableText(component) {
   return [
@@ -98,6 +126,75 @@ function renderDetail() {
   history.replaceState(null, "", url);
 }
 
+function renderDecomposition() {
+  const decomposition = decompositions[selectedCharacter];
+  els.characterInput.value = selectedCharacter || "";
+  els.decompositionGlyph.textContent = selectedCharacter || "?";
+  els.decompositionResult.classList.toggle("unsupported", !decomposition);
+
+  if (!decomposition) {
+    els.decompositionStatus.textContent = "Outside repertoire";
+    els.decompositionStatus.className = "status-badge partial";
+    els.decompositionStructure.textContent = "";
+    els.decompositionComponents.innerHTML = '<span class="no-components">No decomposition available</span>';
+    els.decompositionNote.textContent = "Enter a character from the 3,500-character Level 1 common-use repertoire.";
+    return;
+  }
+
+  els.decompositionStatus.textContent = decomposition.complete ? "GF0014" : "Partial mapping";
+  els.decompositionStatus.className = `status-badge${decomposition.complete ? "" : " partial"}`;
+  els.decompositionStructure.textContent = decomposition.structure
+    ? structureNames[decomposition.structure] || "Compound structure"
+    : "Single component";
+
+  els.decompositionComponents.innerHTML = decomposition.components.map((id) => {
+    const component = componentById.get(id);
+    if (!component) return "";
+    const glyph = component.character || "ID";
+    const name = component.display || component.character || `GF ${id}`;
+    return `
+      <button class="component-chip" type="button" data-component-id="${id}" title="Open GF ${id}">
+        <span class="chip-glyph" lang="zh-Hans">${escapeHtml(glyph)}</span>
+        <span class="chip-copy">
+          <strong>${escapeHtml(name)}</strong>
+          <small>GF ${id}</small>
+        </span>
+      </button>
+    `;
+  }).join("") || '<span class="no-components">No GF0014 component match</span>';
+
+  if (decomposition.complete) {
+    els.decompositionNote.textContent = `${decomposition.components.length} component${decomposition.components.length === 1 ? "" : "s"}, in written order. Select one to open its record.`;
+  } else {
+    const unresolved = decomposition.unresolved.filter(Boolean).join(", ");
+    els.decompositionNote.textContent = unresolved
+      ? `GF0014 components are shown where matched. Unresolved visual fragment${decomposition.unresolved.length === 1 ? "" : "s"}: ${unresolved}.`
+      : "This character has only a partial GF0014 mapping in the source data.";
+  }
+}
+
+function setSelectedCharacter(value) {
+  const character = [...String(value || "").trim()][0];
+  if (!character) return;
+  selectedCharacter = character;
+  const url = new URL(location.href);
+  url.searchParams.set("char", character);
+  history.replaceState(null, "", url);
+  renderDecomposition();
+}
+
+function openComponent(id) {
+  if (!componentById.has(id)) return;
+  selectedId = id;
+  activeFilter = "all";
+  els.search.value = "";
+  els.filterButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.filter === "all");
+  });
+  render();
+  document.querySelector(".detail-panel")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
 function render() {
   renderList();
   renderDetail();
@@ -121,6 +218,31 @@ function formatComponentType(type) {
 
 els.search.addEventListener("input", render);
 
+els.decomposerForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  setSelectedCharacter(els.characterInput.value);
+});
+
+els.characterInput.addEventListener("compositionstart", () => {
+  isComposing = true;
+});
+
+els.characterInput.addEventListener("compositionend", () => {
+  isComposing = false;
+  setSelectedCharacter(els.characterInput.value);
+});
+
+els.characterInput.addEventListener("input", () => {
+  if (!isComposing && [...els.characterInput.value.trim()].length === 1) {
+    setSelectedCharacter(els.characterInput.value);
+  }
+});
+
+els.decompositionComponents.addEventListener("click", (event) => {
+  const chip = event.target.closest(".component-chip");
+  if (chip) openComponent(Number(chip.dataset.componentId));
+});
+
 els.list.addEventListener("click", (event) => {
   const row = event.target.closest(".component-row");
   if (!row) return;
@@ -137,3 +259,4 @@ els.filterButtons.forEach((button) => {
 });
 
 render();
+renderDecomposition();

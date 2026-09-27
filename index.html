@@ -6,7 +6,7 @@
     <title>GF 0014-2009 Component Lookup</title>
     <meta name="description" content="Lookup GF 0014-2009 Chinese character components by ID, glyph, pinyin, meaning, source name, or component type.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f4f46'/%3E%3Cpath d='M15 18h34v7H36v25h-8V25H15z' fill='%23f5dfb5'/%3E%3Cpath d='M18 46h28v5H18z' fill='%23e26d5c'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
   </head>
   <body>
     <main class="app-shell">
@@ -17,6 +17,37 @@
             <h1>Component Lookup</h1>
           </div>
         </header>
+
+        <section class="decomposer" aria-labelledby="decomposerTitle">
+          <div class="decomposer-heading">
+            <div>
+              <p class="eyebrow">3,500 common characters</p>
+              <h2 id="decomposerTitle">Character decomposition</h2>
+            </div>
+            <form id="decomposerForm" class="character-form">
+              <label for="characterInput">Character</label>
+              <div class="character-entry">
+                <input id="characterInput" type="text" inputmode="text" autocomplete="off" maxlength="1" value="想" aria-describedby="decompositionNote">
+                <button type="submit">Decompose</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="decompositionResult" class="decomposition-result" aria-live="polite">
+            <div id="decompositionGlyph" class="decomposition-glyph" lang="zh-Hans">想</div>
+            <div class="decomposition-content">
+              <div class="decomposition-meta">
+                <span id="decompositionStatus" class="status-badge">GF0014</span>
+                <span id="decompositionStructure"></span>
+              </div>
+              <div>
+                <p class="result-label">GF0014 components</p>
+                <div id="decompositionComponents" class="component-chips"></div>
+              </div>
+              <p id="decompositionNote" class="decomposition-note"></p>
+            </div>
+          </div>
+        </section>
 
         <div class="search-row">
           <label class="search-field">
@@ -77,7 +108,8 @@
       </section>
     </main>
 
-    <script src="components-data.js"></script>
-    <script src="app.js"></script>
+    <script src="components-data.js?v=2"></script>
+    <script src="decompositions-data.js?v=2"></script>
+    <script src="app.js?v=3"></script>
   </body>
 </html>

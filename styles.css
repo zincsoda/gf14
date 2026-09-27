@@ -74,6 +74,189 @@ button:hover {
   margin-bottom: 20px;
 }
 
+.decomposer {
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.decomposer-heading {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(280px, 420px);
+  gap: 24px;
+  align-items: end;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.decomposer-heading h2 {
+  font-size: 1.45rem;
+}
+
+.character-form label,
+.result-label {
+  display: block;
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.character-entry {
+  display: grid;
+  grid-template-columns: minmax(80px, 1fr) auto;
+  gap: 8px;
+}
+
+.character-entry input {
+  min-width: 0;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--field);
+  color: var(--ink);
+  padding: 0.45rem 0.75rem;
+  font-family: "STKaiti", "KaiTi", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 1.45rem;
+  outline: none;
+}
+
+.character-entry input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31, 79, 70, 0.14);
+}
+
+.character-entry button {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+  font-weight: 800;
+}
+
+.decomposition-result {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  padding-top: 18px;
+}
+
+.decomposition-glyph {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  aspect-ratio: 1;
+  border-right: 1px solid var(--line);
+  font-family: "STKaiti", "KaiTi", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 4.8rem;
+  line-height: 1;
+}
+
+.decomposition-result.unsupported .decomposition-glyph {
+  color: var(--muted);
+}
+
+.decomposition-content {
+  min-width: 0;
+}
+
+.decomposition-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  align-items: center;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.status-badge {
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0.25rem 0.62rem;
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.status-badge.partial {
+  background: #f9e8e2;
+  color: #8b3f33;
+}
+
+.component-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 58px;
+}
+
+.component-chip {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-width: 108px;
+  min-height: 56px;
+  padding: 7px 10px 7px 8px;
+  text-align: left;
+}
+
+.component-chip:hover,
+.component-chip:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.chip-glyph {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-right: 1px solid var(--line);
+  font-family: "STKaiti", "KaiTi", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.chip-copy {
+  min-width: 0;
+}
+
+.chip-copy strong,
+.chip-copy small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip-copy strong {
+  font-size: 0.88rem;
+}
+
+.chip-copy small {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
+.decomposition-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.no-components {
+  align-self: center;
+  color: var(--muted);
+}
+
 .eyebrow {
   margin: 0 0 2px;
   color: var(--accent);
@@ -345,6 +528,7 @@ h2 {
   }
 
   .topbar,
+  .decomposer-heading,
   .search-row,
   .content-grid {
     grid-template-columns: 1fr;
@@ -360,6 +544,24 @@ h2 {
 }
 
 @media (max-width: 560px) {
+  .decomposer {
+    padding: 16px;
+  }
+
+  .decomposition-result {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .decomposition-glyph {
+    width: 76px;
+    font-size: 3.4rem;
+  }
+
+  .character-entry {
+    grid-template-columns: 1fr;
+  }
+
   .detail-main {
     grid-template-columns: 1fr;
   }
