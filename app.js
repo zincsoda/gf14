@@ -1,5 +1,6 @@
 const components = window.GF0014_COMPONENTS || [];
 const decompositions = window.GF0014_DECOMPOSITIONS || {};
+const componentGlyphs = window.GF0014_GLYPHS || {};
 const componentById = new Map(components.map((component) => [component.id, component]));
 
 const els = {
@@ -67,6 +68,7 @@ function getFilteredComponents() {
   const query = els.search.value.trim().toLowerCase();
   return components.filter((component) => {
     if (activeFilter === "unmapped" && component.glyphAvailable) return false;
+    if (activeFilter === "svg" && !componentGlyphs[component.id]) return false;
     if (!query) return true;
     return searchableText(component).includes(query);
   });
@@ -86,17 +88,19 @@ function renderList() {
   }
 
   const html = filtered.map((component) => {
-    const glyph = component.character || "ID";
     const title = escapeHtml(component.display || component.character || `GF ${component.id}`);
     const meta = escapeHtml([component.gfPinyin, component.meaning].filter(Boolean).join(" - "));
     const active = component.id === selectedId ? " active" : "";
     const unmapped = component.glyphAvailable ? "" : " unmapped";
+    const svgBadge = componentGlyphs[component.id]
+      ? '<span class="row-svg-badge" title="Rendered from SVG">SVG</span>'
+      : "";
     return `
       <button class="component-row${active}" type="button" data-id="${component.id}">
         <span class="row-id">GF ${component.id}</span>
-        <span class="row-glyph${unmapped}" lang="zh-Hans">${escapeHtml(glyph)}</span>
+        <span class="row-glyph${unmapped}" lang="zh-Hans">${renderGlyph(component)}</span>
         <span>
-          <span class="row-title"><span>${title}</span></span>
+          <span class="row-title"><span>${title}</span>${svgBadge}</span>
           <span class="row-meta">${meta}</span>
         </span>
       </button>
@@ -110,7 +114,7 @@ function renderDetail() {
   const component = components.find((item) => item.id === selectedId) || components[0];
   if (!component) return;
 
-  els.glyph.textContent = component.character || "ID";
+  els.glyph.innerHTML = renderGlyph(component);
   els.glyph.classList.toggle("unmapped", !component.glyphAvailable);
   els.gfId.textContent = `GF ${component.id}`;
   els.unicode.textContent = component.unicode || "No Unicode mapping";
@@ -150,11 +154,10 @@ function renderDecomposition() {
   els.decompositionComponents.innerHTML = decomposition.components.map((id) => {
     const component = componentById.get(id);
     if (!component) return "";
-    const glyph = component.character || "ID";
     const name = component.display || component.character || `GF ${id}`;
     return `
       <button class="component-chip" type="button" data-component-id="${id}" title="Open GF ${id}">
-        <span class="chip-glyph" lang="zh-Hans">${escapeHtml(glyph)}</span>
+        <span class="chip-glyph" lang="zh-Hans">${renderGlyph(component)}</span>
         <span class="chip-copy">
           <strong>${escapeHtml(name)}</strong>
           <small>GF ${id}</small>
@@ -207,6 +210,21 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function renderGlyph(component) {
+  const vector = componentGlyphs[component.id];
+  if (!vector) return escapeHtml(component.character || "ID");
+
+  const paths = vector.paths
+    .map((path) => `<path d="${escapeHtml(path)}"></path>`)
+    .join("");
+  const label = escapeHtml(component.display || `GF ${component.id}`);
+  return `
+    <svg class="component-glyph-svg" viewBox="${escapeHtml(vector.viewBox)}" role="img" aria-label="${label}">
+      <g fill="none" stroke="currentColor" stroke-width="${vector.strokeWidth}" stroke-linecap="square" stroke-linejoin="miter">${paths}</g>
+    </svg>
+  `;
 }
 
 function formatComponentType(type) {

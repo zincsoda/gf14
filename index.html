@@ -6,7 +6,7 @@
     <title>GF 0014-2009 Component Lookup</title>
     <meta name="description" content="Lookup GF 0014-2009 Chinese character components by ID, glyph, pinyin, meaning, source name, or component type.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f4f46'/%3E%3Cpath d='M15 18h34v7H36v25h-8V25H15z' fill='%23f5dfb5'/%3E%3Cpath d='M18 46h28v5H18z' fill='%23e26d5c'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=7">
   </head>
   <body>
     <main class="app-shell">
@@ -16,6 +16,7 @@
             <p class="eyebrow">GF 0014-2009</p>
             <h1>Component Lookup</h1>
           </div>
+          <a class="source-jump" href="sources.html">Data sources</a>
         </header>
 
         <section class="decomposer" aria-labelledby="decomposerTitle">
@@ -56,6 +57,7 @@
           </label>
           <div class="filters" role="group" aria-label="Catalog filter">
             <button class="filter-button active" type="button" data-filter="all">All</button>
+            <button class="filter-button" type="button" data-filter="svg">SVG</button>
             <button class="filter-button" type="button" data-filter="unmapped">Unmapped</button>
           </div>
         </div>
@@ -109,7 +111,8 @@
     </main>
 
     <script src="components-data.js?v=2"></script>
+    <script src="glyphs-data.js?v=1"></script>
     <script src="decompositions-data.js?v=2"></script>
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=7"></script>
   </body>
 </html>
